@@ -22,14 +22,31 @@ class BlurTransformation @JvmOverloads constructor(
         val height = toTransform.height
         val scaledWidth = width / sampling
         val scaledHeight = height / sampling
-        var bitmap = pool[scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888]
+        
+        // 添加边距避免黑边
+        val padding = radius
+        val paddedWidth = scaledWidth + padding * 2
+        val paddedHeight = scaledHeight + padding * 2
+        
+        var bitmap = pool[paddedWidth, paddedHeight, Bitmap.Config.ARGB_8888]
         val canvas = Canvas(bitmap)
-        canvas.scale(1 / sampling.toFloat(), 1 / sampling.toFloat())
+        
         val paint = Paint()
-        paint.flags = Paint.FILTER_BITMAP_FLAG
-        canvas.drawBitmap(toTransform, 0f, 0f, paint)
+        paint.flags = Paint.FILTER_BITMAP_FLAG or Paint.ANTI_ALIAS_FLAG
+        
+        // 绘制到中心位置
+        canvas.scale(1 / sampling.toFloat(), 1 / sampling.toFloat())
+        canvas.drawBitmap(toTransform, padding.toFloat() * sampling, padding.toFloat() * sampling, paint)
+        
+        // 模糊处理
         bitmap = blur(bitmap, radius, true)!!
-        return bitmap
+        
+        // 裁剪回原尺寸
+        val finalBitmap = pool[scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888]
+        val finalCanvas = Canvas(finalBitmap)
+        finalCanvas.drawBitmap(bitmap, -padding.toFloat(), -padding.toFloat(), paint)
+        
+        return finalBitmap
     }
 
     override fun toString(): String {

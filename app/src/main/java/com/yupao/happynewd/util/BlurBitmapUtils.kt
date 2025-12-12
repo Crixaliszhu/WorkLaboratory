@@ -34,32 +34,71 @@ object BlurBitmapUtils {
 
     private fun blurBitmap(context: Context?, bitmap: Bitmap, result: CompleteListener) {
         Thread(Runnable {
-            //用需要创建高斯模糊bitmap创建一个空的bitmap
-            val outBitmap =
-                Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888)
-            // 初始化Renderscript，该类提供了RenderScript context，创建其他RS类之前必须先创建这个类，其控制RenderScript的初始化，资源管理及释放
+            // 添加边距避免黑边
+            val padding = 25
+            val paddedWidth = bitmap.width + padding * 2
+            val paddedHeight = bitmap.height + padding * 2
+            
+            // 创建带边距的bitmap
+            val paddedBitmap = Bitmap.createBitmap(paddedWidth, paddedHeight, Bitmap.Config.ARGB_8888)
+            val canvas = android.graphics.Canvas(paddedBitmap)
+            
+            // 填充边缘像素
+            val paint = android.graphics.Paint()
+            paint.isFilterBitmap = true
+            paint.isAntiAlias = true
+            
+            // 绘制原图到中心
+            canvas.drawBitmap(bitmap, padding.toFloat(), padding.toFloat(), paint)
+            
+            // 填充边缘
+            val matrix = android.graphics.Matrix()
+            // 左边缘
+            val leftEdge = Bitmap.createBitmap(bitmap, 0, 0, 1, bitmap.height)
+            matrix.setScale(padding.toFloat(), 1f)
+            canvas.drawBitmap(leftEdge, matrix, paint)
+            
+            // 右边缘
+            val rightEdge = Bitmap.createBitmap(bitmap, bitmap.width - 1, 0, 1, bitmap.height)
+            matrix.setTranslate((paddedWidth - padding).toFloat(), padding.toFloat())
+            matrix.preScale(padding.toFloat(), 1f)
+            canvas.drawBitmap(rightEdge, matrix, paint)
+            
+            // 上边缘
+            val topEdge = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, 1)
+            matrix.setTranslate(padding.toFloat(), 0f)
+            matrix.preScale(1f, padding.toFloat())
+            canvas.drawBitmap(topEdge, matrix, paint)
+            
+            // 下边缘
+            val bottomEdge = Bitmap.createBitmap(bitmap, 0, bitmap.height - 1, bitmap.width, 1)
+            matrix.setTranslate(padding.toFloat(), (paddedHeight - padding).toFloat())
+            matrix.preScale(1f, padding.toFloat())
+            canvas.drawBitmap(bottomEdge, matrix, paint)
+            
+            // 创建输出bitmap
+            val outBitmap = Bitmap.createBitmap(paddedWidth, paddedHeight, Bitmap.Config.ARGB_8888)
+            
             val rs = RenderScript.create(context)
-            // 创建高斯模糊对象
             val blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
-            // 创建Allocations，此类是将数据传递给RenderScript内核的主要方 法，并制定一个后备类型存储给定类型
-            val allIn = Allocation.createFromBitmap(rs, bitmap)
+            val allIn = Allocation.createFromBitmap(rs, paddedBitmap)
             val allOut = Allocation.createFromBitmap(rs, outBitmap)
-            //设定模糊度(注：Radius最大只能设置25.f)
+            
             blurScript.setRadius(25f)
-            // Perform the Renderscript
             blurScript.setInput(allIn)
             blurScript.forEach(allOut)
-            // Copy the final bitmap created by the out Allocation to the outBitmap
             allOut.copyTo(outBitmap)
-            // recycle the original bitmap
-            // bitmap.recycle();
-            // After finishing everything, we destroy the Renderscript.
+            
+            // 裁剪回原尺寸
+            val finalBitmap = Bitmap.createBitmap(outBitmap, padding, padding, bitmap.width, bitmap.height)
+            
             rs.destroy()
-            Handler(Looper.getMainLooper()).post(object : Runnable {
-                override fun run() {
-                    result.onComplete(outBitmap)
-                }
-            })
+            paddedBitmap.recycle()
+            outBitmap.recycle()
+            
+            Handler(Looper.getMainLooper()).post {
+                result.onComplete(finalBitmap)
+            }
         }).start()
     }
 

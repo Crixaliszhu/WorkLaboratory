@@ -349,9 +349,12 @@ class MainActivity : AppCompatActivity() {
         avatar?.let {
             OSSImageUtil.loadResizedImage(
                 this,
-                it,
-                imageUrl, it.width, this.getDrawable(R.drawable.ic_recruitment_head)!!,
-                this.getDrawable(R.drawable.ic_recruitment_head)!!
+                imageView = it,
+                imageUrl = entity.resumeBaseEntity?.avatar!!,
+                placeHolder = this.getDrawable(R.drawable.ic_recruitment_head)!!,
+                errorImg = this.getDrawable(R.drawable.ic_recruitment_head)!!,
+                isFuzzy = true,
+                width = it.width,
             )
         }
         if (entity.resumeBaseEntity != null) {

@@ -147,7 +147,9 @@ object OSSImageUtil {
             rinsum = ginsum
             i = -radius
             while (i <= radius) {
-                p = pix[yi + Math.min(wm, Math.max(i, 0))]
+                // 使用边缘像素扩展而不是黑色填充
+                val pixelIndex = yi + Math.min(wm, Math.max(i, 0))
+                p = pix[pixelIndex]
                 sir = stack[i + radius]
                 sir[0] = p and 0xff0000 shr 16
                 sir[1] = p and 0x00ff00 shr 8
@@ -295,9 +297,10 @@ object OSSImageUtil {
         context: Context,
         imageView: ImageView,
         imageUrl: String,
-        width: Int,
         errorImg: Drawable,
-        placeHolder: Drawable
+        placeHolder: Drawable,
+        isFuzzy: Boolean,
+        width: Int,
     ) {
         val resizedUrl = generateResizedImageUrl(imageUrl, width)
         val resourceId = getResourceId(imageUrl)
@@ -323,8 +326,10 @@ object OSSImageUtil {
                         )
                     )
 
-                    // 添加模糊变换
-                    transformations.add(BlurTransformation(radius = 20))
+                    // 添加模糊变换（无黑边）
+                    if (isFuzzy) {
+                        transformations.add(BlurTransformation(radius = 15))
+                    }
 
                     if (transformations.isNotEmpty()) {
                         if (transformations.size == 1) {

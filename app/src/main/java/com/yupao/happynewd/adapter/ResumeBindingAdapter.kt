@@ -4,8 +4,35 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.yupao.happynewd.R
+import com.yupao.happynewd.util.BlurBitmapUtils
+import com.yupao.happynewd.util.BlurTransformation
+import com.yupao.happynewd.util.OSSImageUtil
+import com.yupao.happynewd.util.RoundedCornersTransformation
 
+/**
+ * 加载简历头像
+ * @param avatarUrl 头像URL
+ * @param isFuzzy 是否模糊
+ */
+@BindingAdapter(value = ["avatarUrl", "isFuzzy"], requireAll = false)
+fun ImageView.loadResumeAvatar(avatarUrl: String?, isFuzzy: Boolean?) {
+    avatarUrl?.let {
+        OSSImageUtil.loadResizedImage(
+            this.context,
+            imageView = this,
+            imageUrl = avatarUrl,
+            placeHolder = this.context.getDrawable(R.drawable.ic_recruitment_head)!!,
+            errorImg = this.context.getDrawable(R.drawable.ic_recruitment_head)!!,
+            isFuzzy = isFuzzy == true,
+            width = this.width,
+        )
+    }
+}
 
 /**
  * 设置性别图标
