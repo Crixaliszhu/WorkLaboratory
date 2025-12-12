@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--文本-->
+    <dimen name="text10">10sp</dimen>
+    <dimen name="text12">12dp</dimen>
+    <dimen name="text14">14dp</dimen>
+    <dimen name="text16">16dp</dimen>
+    <dimen name="text18">18sp</dimen>
+    <dimen name="text20">20sp</dimen>
+    <dimen name="text22">22sp</dimen>
+    <dimen name="text24">24sp</dimen>
+    <!--500文本-->
+    <dimen name="text13">13sp</dimen>
+    <dimen name="text15">15sp</dimen>
+    <dimen name="text17">17sp</dimen>
+    <dimen name="text19">19sp</dimen>
+    <dimen name="text21">21sp</dimen>
+</resources>

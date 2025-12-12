@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp">
+
+    <!-- 左边金币容器 -->
+    <FrameLayout
+        android:id="@+id/leftCoinContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|start"
+        android:layout_marginEnd="40dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
+
+        <!-- 金币背景卡片 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="120dp"
+            android:layout_height="140dp"
+            android:layout_gravity="center"
+            app:cardBackgroundColor="#FFE0B2"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <!-- 金币图片 -->
+                <ImageView
+                    android:id="@+id/leftCoinImage"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@mipmap/ic_launcher" />
+
+                <!-- 金币数量文本 -->
+                <TextView
+                    android:id="@+id/leftCoinText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="300"
+                    android:textColor="#FF6F00"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <!-- 金币单位 -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="金币"
+                    android:textColor="#FF8F00"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- 左边标签 -->
+        <TextView
+            android:id="@+id/leftLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/label_background_pink"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:text="直接领取"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+
+    <!-- 右边金币容器 -->
+    <FrameLayout
+        android:id="@+id/rightCoinContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginStart="40dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
+
+        <!-- 金币背景卡片 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="120dp"
+            android:layout_height="140dp"
+            android:layout_gravity="center"
+            app:cardBackgroundColor="#FFE0B2"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <!-- 金币图片 -->
+                <ImageView
+                    android:id="@+id/rightCoinImage"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@mipmap/ic_launcher" />
+
+                <!-- 金币数量文本 -->
+                <TextView
+                    android:id="@+id/rightCoinText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="400"
+                    android:textColor="#FF6F00"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <!-- 金币单位 -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="金币"
+                    android:textColor="#FF8F00"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- 右边标签 -->
+        <TextView
+            android:id="@+id/rightLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/label_background_pink"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:text="看视频领取"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+
+    <!-- 右上角标签（翻倍后） -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/label_background_red"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:text="翻倍后"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+</FrameLayout>

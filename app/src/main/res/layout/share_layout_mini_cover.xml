@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="entity"
+            type="com.yupao.happynewd.model.ResumeDetailBaseParamsEntity" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="210dp"
+        android:layout_height="168dp"
+        android:background="@drawable/share_resume_mini_cover_bg">
+
+        <!-- 内容区域 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="22dp"
+            android:orientation="vertical">
+
+            <!-- 头部区域：姓名、基本信息和头像 -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- 头像容器 -->
+                <FrameLayout
+                    android:id="@+id/flAvatar"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true">
+
+                    <!-- 头像 -->
+                    <com.yupao.happynewd.view.ResizedImageView
+                        blurRadius="@{entity.blurRadius()}"
+                        errorImg="@{@drawable/ic_recruitment_head}"
+                        placeHolder="@{@drawable/ic_recruitment_head}"
+                        resizedImageUrl="@{entity.avatar}"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop"
+                        app:round="6dp"
+                        app:roundPercent="100" />
+
+                    <!-- 性别图标 -->
+                    <ImageView
+                        android:id="@+id/ivGender"
+                        genderIcon="@{entity.gender}"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_gravity="top|end"
+                        tools:src="@drawable/ic_man" />
+                </FrameLayout>
+
+                <!-- 姓名和基本信息容器 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toStartOf="@id/flAvatar"
+                    android:orientation="vertical"
+                    android:paddingEnd="6dp">
+
+                    <!-- 姓名 -->
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{entity.name}"
+                        android:textColor="@color/black85"
+                        android:textSize="@dimen/text17"
+                        tools:text="陈**" />
+
+                    <!-- 基本信息 -->
+                    <TextView
+                        android:id="@+id/tvBaseInfo"
+                        degree="@{entity.degree}"
+                        hopeCity="@{entity.hopeCity}"
+                        workAge="@{entity.workAge}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:textColor="@color/black65"
+                        android:textSize="@dimen/text12"
+                        tools:text="巴彦淖尔盟 · 30岁 · 研究生 · 1年以内经验" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!-- 分割线 -->
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="12dp"
+                android:background="#D7EAFF" />
+
+            <!-- 工作经历视图 -->
+            <LinearLayout
+                android:id="@+id/llWorkExperience"
+                visible="@{entity.hasExperience}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                tools:visibility="visible">
+
+                <!-- 职位 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:src="@drawable/icon_toolkit" />
+
+                    <TextView
+                        android:id="@+id/tvJobTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{entity.jobTitle}"
+                        android:textColor="@color/black65"
+                        android:textSize="@dimen/text12"
+                        tools:text="Java开发工程师" />
+                </LinearLayout>
+
+                <!-- 公司 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:src="@drawable/icon_city" />
+
+                    <TextView
+                        android:id="@+id/tvJobCompany"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{entity.jobCompany}"
+                        android:textColor="@color/black65"
+                        android:textSize="@dimen/text12"
+                        tools:text="鱼泡泡直聘科技有限公司鱼泡..." />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 自我介绍视图 -->
+            <LinearLayout
+                android:id="@+id/llIntroduction"
+                visible="@{!entity.hasExperience}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                tools:visibility="gone">
+
+                <!-- 自我介绍标题和查看详情 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="自我介绍"
+                        android:textColor="@color/black85"
+                        android:textSize="@dimen/text12"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="查看简历详情"
+                        android:textColor="@color/black65"
+                        android:textSize="@dimen/text12" />
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginTop="1dp"
+                        android:src="@drawable/icon_mbx_b65" />
+                </LinearLayout>
+
+                <!-- 自我介绍内容 -->
+                <TextView
+                    android:id="@+id/tvIntroduction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ellipsize="end"
+                    android:lineSpacingExtra="2dp"
+                    android:maxLines="2"
+                    android:text="@{entity.introduction}"
+                    android:textColor="@color/black65"
+                    android:textSize="@dimen/text12"
+                    tools:text="这里是自我介绍。如果用户没有填21写，使用系统生成的。最多展示两,这里是自我介绍。如果用户没有填21写，使用系统生成的。最多展示两..." />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

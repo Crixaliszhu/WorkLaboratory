@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LimitMaxTextView">
+        <attr name="maxSizeDp" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="MaxSizeTextView">
+        <attr name="maxTextSize" format="dimension" />
+    </declare-styleable>
+</resources>
