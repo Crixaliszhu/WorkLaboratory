@@ -10,11 +10,12 @@ import androidx.lifecycle.LifecycleOwner
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.yupao.happynewd.R
 import com.yupao.happynewd.databinding.ShareLayoutMiniCoverBinding
 import com.yupao.happynewd.model.ResumePosterEntity
 import com.yupao.happynewd.ui.PictureFileUtils
-import com.yupao.happynewd.util.BlurBitmapUtils
 import com.yupao.happynewd.util.DensityUtils
+import com.yupao.happynewd.view.ResizedImageView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -75,22 +76,45 @@ object CoverGenerateHelper {
             callBack.invoke("")
             return
         }
-        val view = withContext(Dispatchers.Main.immediate) {
-            generateResumeView(
-                context,
-                owner,
-                inflater,
-                posterEntity
-            )
+        
+        withContext(Dispatchers.Main) {
+            val view = generateResumeView(context, owner, inflater, posterEntity)
+            val imageView = view?.findViewById<ResizedImageView>(R.id.ivImageView)
+            
+            if (imageView != null && !posterEntity.resumeBaseEntity?.avatar.isNullOrBlank()) {
+                // 等待图片加载完成
+                Glide.with(context)
+                    .asBitmap()
+                    .load(posterEntity.resumeBaseEntity?.avatar)
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap?>?) {
+                            // 图片加载完成后生成封面
+                            val bmp = generateCoverBitmap(view)
+                            if (bmp != null) {
+                                PictureFileUtils.saveBitmapLocalPng(context, bmp)
+                                val url = PictureFileUtils.saveBitmapToProviderCache(context, bmp)
+                                callBack.invoke(url)
+                            } else {
+                                callBack.invoke("")
+                            }
+                        }
+                        
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                            callBack.invoke("")
+                        }
+                    })
+            } else {
+                // 没有头像，直接生成
+                val bmp = generateCoverBitmap(view)
+                if (bmp != null) {
+                    PictureFileUtils.saveBitmapLocalPng(context, bmp)
+                    val url = PictureFileUtils.saveBitmapToProviderCache(context, bmp)
+                    callBack.invoke(url)
+                } else {
+                    callBack.invoke("")
+                }
+            }
         }
-        val bmp = generateCoverBitmap(view)
-        if (bmp == null) {
-            callBack.invoke("")
-            return
-        }
-        PictureFileUtils.saveBitmapLocalPng(context, bmp)
-        val url = PictureFileUtils.saveBitmapToProviderCache(context, bmp)
-        callBack.invoke(url)
     }
 
 }

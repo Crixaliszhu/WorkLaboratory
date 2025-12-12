@@ -34,7 +34,9 @@ import com.yupao.happynewd.model.ResumePosterEntity
 import com.yupao.happynewd.ui.TestCardViewActivity
 import kotlinx.coroutines.launch
 import androidx.core.net.toUri
+import com.yupao.happynewd.util.IMAvatarUtils
 import com.yupao.happynewd.util.OSSImageUtil
+import com.yupao.happynewd.view.ResizedImageView
 
 
 class MainActivity : AppCompatActivity() {
@@ -356,6 +358,9 @@ class MainActivity : AppCompatActivity() {
                 isFuzzy = true,
                 width = it.width,
             )
+        }
+        findViewById<ResizedImageView>(R.id.ivRImageView)?.let {
+            IMAvatarUtils.setAvatar(it, entity.resumeBaseEntity?.avatar)
         }
         if (entity.resumeBaseEntity != null) {
             lifecycleScope.launch {
