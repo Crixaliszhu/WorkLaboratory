@@ -26,7 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginVertical="20dp"
-            android:background="@drawable/reward_container_background">
+            android:background="@drawable/reward_container_background"
+            android:visibility="gone">
 
             <!-- 左边金币 -->
             <FrameLayout
@@ -212,6 +213,11 @@
             android:text="实现要点：\n\n1. 使用FrameLayout作为容器，通过rotation属性实现旋转\n2. 数字文本和图片在同一个容器内，保持相同旋转角度\n3. 左边金币向左旋转-15度，右边金币向右旋转15度\n4. 支持动态更新数字内容\n5. 可以添加动画效果增强用户体验"
             android:textColor="#666666"
             android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
 
     </LinearLayout>
 

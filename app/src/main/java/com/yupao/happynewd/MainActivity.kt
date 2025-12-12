@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -32,6 +33,8 @@ import com.yupao.happynewd.model.ResumeDetailBaseParamsEntity
 import com.yupao.happynewd.model.ResumePosterEntity
 import com.yupao.happynewd.ui.TestCardViewActivity
 import kotlinx.coroutines.launch
+import androidx.core.net.toUri
+import com.yupao.happynewd.util.OSSImageUtil
 
 
 class MainActivity : AppCompatActivity() {
@@ -41,12 +44,14 @@ class MainActivity : AppCompatActivity() {
     var startTime: Long = 0
     var skill: TextView? = null
     private val takeCode = 1001
+    private var avatar: ImageView? = null
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_coin_demo)
-        setupCoinDemo()
+        avatar = findViewById<ImageView>(R.id.ivAvatar)
+//        setupCoinDemo()
         buildPosterBitmap()
     }
 
@@ -324,10 +329,12 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun buildPosterBitmap() {
+        val imageUrl =
+            "https://static-test-public.cdqlkj.cn/r/8375/108/pb/p/20241011/db48869d7f684d3d98063219792425ef.jpeg"
         val entity = ResumePosterEntity(
             imgPath = "",
             resumeBaseEntity = ResumeDetailBaseParamsEntity(
-                avatar = "https://static-test-public.cdqlkj.cn/r/8375/108/pb/p/20241011/db48869d7f684d3d98063219792425ef.jpeg",
+                avatar = imageUrl,
                 gender = 1,
                 name = "阿里巴巴逾四十大盗",
                 workAge = "10年工作经验",
@@ -339,6 +346,14 @@ class MainActivity : AppCompatActivity() {
                 introduction = "学术造诣高，有三层楼那么高！时间安排合理，按时完成工作，不拖延，不影响整体进度。",
             ),
         )
+        avatar?.let {
+            OSSImageUtil.loadResizedImage(
+                this,
+                it,
+                imageUrl, it.width, this.getDrawable(R.drawable.ic_recruitment_head)!!,
+                this.getDrawable(R.drawable.ic_recruitment_head)!!
+            )
+        }
         if (entity.resumeBaseEntity != null) {
             lifecycleScope.launch {
                 CoverGenerateHelper.generateResumeCover(

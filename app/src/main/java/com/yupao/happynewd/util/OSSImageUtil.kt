@@ -1,6 +1,17 @@
 package com.yupao.happynewd.util
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 
 /**
  * @author guoqingshan
@@ -278,5 +289,82 @@ object OSSImageUtil {
         }
         bitmap.setPixels(pix, 0, w, 0, 0, w, h)
         return bitmap
+    }
+
+    fun loadResizedImage(
+        context: Context,
+        imageView: ImageView,
+        imageUrl: String,
+        width: Int,
+        errorImg: Drawable,
+        placeHolder: Drawable
+    ) {
+        val resizedUrl = generateResizedImageUrl(imageUrl, width)
+        val resourceId = getResourceId(imageUrl)
+        val realUrl = ResourceGlideUrl(
+            url = resizedUrl,
+            resourceId = resourceId,
+            width = width
+        )
+        println("异常生命周期的异常捕获 Glide $realUrl")
+        // 异常生命周期的异常捕获
+        try {
+            Glide.with(context)
+                .load(realUrl)
+                .apply {
+                    val transformations =
+                        mutableListOf<com.bumptech.glide.load.Transformation<android.graphics.Bitmap>>()
+
+                    // 添加圆角变换
+                    transformations.add(
+                        RoundedCornersTransformation(
+                            radius = 1f,
+                            roundPercent = 100f
+                        )
+                    )
+
+                    // 添加模糊变换
+                    transformations.add(BlurTransformation(radius = 20))
+
+                    if (transformations.isNotEmpty()) {
+                        if (transformations.size == 1) {
+                            apply(RequestOptions.bitmapTransform(transformations[0]))
+                        } else {
+                            apply(RequestOptions.bitmapTransform(MultiTransformation(*transformations.toTypedArray())))
+                        }
+                    }
+                }
+                .error(errorImg)
+                .placeholder(placeHolder)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: com.bumptech.glide.request.target.Target<Drawable>,
+                        isFirstResource: Boolean,
+                    ): Boolean {
+                        println("ERROR:${e}")
+                        // 图片加载失败
+                        return false // 返回 false 表示继续传递回调
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        model: Any,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource,
+                        isFirstResource: Boolean,
+                    ): Boolean {
+                        return false // 返回 false 表示继续传递回调
+                    }
+                })
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .into(imageView)
+        } catch (e: Throwable) {
+            // 捕获加载异常
+            println(
+                "加载图片异常${e}"
+            )
+        }
     }
 }
