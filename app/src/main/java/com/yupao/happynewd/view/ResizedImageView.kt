@@ -115,7 +115,13 @@ class ResizedImageView @JvmOverloads constructor(
                     
                     // 添加圆角变换
                     if (cornerRadius > 0 || roundPercent > 0) {
-                        transformations.add(RoundedCornersTransformation(cornerRadius, roundPercent))
+                        // 如果是圆形（roundPercent = 100），先裁剪为正方形
+                        if (roundPercent >= 100f) {
+                            transformations.add(com.bumptech.glide.load.resource.bitmap.CenterCrop())
+                            transformations.add(com.bumptech.glide.load.resource.bitmap.CircleCrop())
+                        } else {
+                            transformations.add(RoundedCornersTransformation(cornerRadius, roundPercent))
+                        }
                     }
                     
                     // 添加模糊变换

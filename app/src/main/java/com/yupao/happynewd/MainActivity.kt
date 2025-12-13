@@ -352,13 +352,62 @@ class MainActivity : AppCompatActivity() {
             OSSImageUtil.loadResizedImage(
                 this,
                 imageView = it,
-                imageUrl = entity.resumeBaseEntity?.avatar!!,
+                imageUrl = "https://static-test-public.cdqlkj.cn/r/c7a4/108/pb/p/20231103/9bd8cd946a264e06b769c4156cf45bac.png",
                 placeHolder = this.getDrawable(R.drawable.ic_recruitment_head)!!,
                 errorImg = this.getDrawable(R.drawable.ic_recruitment_head)!!,
                 isFuzzy = true,
                 width = it.width,
             )
         }
+
+        findViewById<ImageView>(R.id.ivAvatar2)?.let {
+            OSSImageUtil.loadResizedImage(
+                this,
+                imageView = it,
+                imageUrl = "https://static-test-public.cdqlkj.cn/r/c7a4/108/pb/p/20231103/9bd8cd946a264e06b769c4156cf45bac.png",
+                placeHolder = this.getDrawable(R.drawable.ic_recruitment_head)!!,
+                errorImg = this.getDrawable(R.drawable.ic_recruitment_head)!!,
+                isFuzzy = true,
+                width = it.width,
+            )
+        }
+
+        findViewById<ImageView>(R.id.ivAvatar12)?.let {
+            OSSImageUtil.loadResizedImage(
+                this,
+                imageView = it,
+                imageUrl = "https://static-test-public.cdqlkj.cn/r/c7a4/108/pb/p/20231103/9bd8cd946a264e06b769c4156cf45bac.png",
+                placeHolder = this.getDrawable(R.drawable.ic_recruitment_head)!!,
+                errorImg = this.getDrawable(R.drawable.ic_recruitment_head)!!,
+                isFuzzy = true,
+                width = it.width,
+            )
+        }
+
+        findViewById<ImageView>(R.id.ivAvatar22)?.let {
+            OSSImageUtil.loadResizedImage(
+                this,
+                imageView = it,
+                imageUrl = "https://static-test-public.cdqlkj.cn/r/c7a4/108/pb/p/20231103/9bd8cd946a264e06b769c4156cf45bac.png",
+                placeHolder = this.getDrawable(R.drawable.ic_recruitment_head)!!,
+                errorImg = this.getDrawable(R.drawable.ic_recruitment_head)!!,
+                isFuzzy = true,
+                width = it.width,
+            )
+        }
+
+        findViewById<ImageView>(R.id.ivAvatar32)?.let {
+            OSSImageUtil.loadResizedImage(
+                this,
+                imageView = it,
+                imageUrl = "https://static-test-public.cdqlkj.cn/r/c7a4/108/pb/p/20231103/9bd8cd946a264e06b769c4156cf45bac.png",
+                placeHolder = this.getDrawable(R.drawable.ic_recruitment_head)!!,
+                errorImg = this.getDrawable(R.drawable.ic_recruitment_head)!!,
+                isFuzzy = true,
+                width = it.width,
+            )
+        }
+
         findViewById<ResizedImageView>(R.id.ivRImageView)?.let {
             IMAvatarUtils.setAvatar(it, entity.resumeBaseEntity?.avatar)
         }
