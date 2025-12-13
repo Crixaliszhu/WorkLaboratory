@@ -113,20 +113,23 @@ class ResizedImageView @JvmOverloads constructor(
                 .apply {
                     val transformations = mutableListOf<com.bumptech.glide.load.Transformation<android.graphics.Bitmap>>()
                     
-                    // 添加圆角变换
-                    if (cornerRadius > 0 || roundPercent > 0) {
-                        // 如果是圆形（roundPercent = 100），先裁剪为正方形
-                        if (roundPercent >= 100f) {
-                            transformations.add(com.bumptech.glide.load.resource.bitmap.CenterCrop())
-                            transformations.add(com.bumptech.glide.load.resource.bitmap.CircleCrop())
-                        } else {
-                            transformations.add(RoundedCornersTransformation(cornerRadius, roundPercent))
+                    // 处理圆形和模糊变换
+                    if (roundPercent >= 100f && blurRadius != null) {
+                        // 圆形+模糊：先模糊再圆形
+                        transformations.add(com.yupao.happynewd.util.BlurThenCircleTransformation(blurRadius = blurRadius!!))
+                    } else {
+                        // 其他情况按原来顺序
+                        if (cornerRadius > 0 || roundPercent > 0) {
+                            if (roundPercent >= 100f) {
+                                transformations.add(com.bumptech.glide.load.resource.bitmap.CenterCrop())
+                                transformations.add(com.bumptech.glide.load.resource.bitmap.CircleCrop())
+                            } else {
+                                transformations.add(RoundedCornersTransformation(cornerRadius, roundPercent))
+                            }
                         }
-                    }
-                    
-                    // 添加模糊变换
-                    if (blurRadius != null) {
-                        transformations.add(BlurTransformation(radius = blurRadius!!))
+                        if (blurRadius != null) {
+                            transformations.add(BlurTransformation(radius = blurRadius!!))
+                        }
                     }
                     
                     if (transformations.isNotEmpty()) {

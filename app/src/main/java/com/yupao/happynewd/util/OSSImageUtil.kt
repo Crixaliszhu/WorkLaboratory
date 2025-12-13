@@ -318,13 +318,13 @@ object OSSImageUtil {
                     val transformations =
                         mutableListOf<com.bumptech.glide.load.Transformation<android.graphics.Bitmap>>()
 
-                    // 添加圆形变换（先裁剪为正方形再变圆）
-                    transformations.add(com.bumptech.glide.load.resource.bitmap.CenterCrop())
-                    transformations.add(com.bumptech.glide.load.resource.bitmap.CircleCrop())
-
-                    // 添加模糊变换（无黑边）
+                    // 如果需要模糊，使用先模糊再圆形的变换
                     if (isFuzzy) {
-                        transformations.add(BlurTransformation(radius = 15))
+                        transformations.add(BlurThenCircleTransformation(blurRadius = 15))
+                    } else {
+                        // 只需要圆形
+                        transformations.add(com.bumptech.glide.load.resource.bitmap.CenterCrop())
+                        transformations.add(com.bumptech.glide.load.resource.bitmap.CircleCrop())
                     }
 
                     if (transformations.isNotEmpty()) {

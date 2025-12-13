@@ -215,18 +215,26 @@
             android:textSize="12sp" />
 
         <ImageView
-            android:id="@+id/ivAvatar"
+            android:id="@+id/ivAvatar1"
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/bla" />
+            android:src="@drawable/women" />
+
+        <ImageView
+            android:id="@+id/ivAvatar11"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/women" />
 
         <ImageView
             android:id="@+id/ivAvatar2"
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/bla" />
+            android:scaleType="centerInside"
+            android:src="@drawable/er" />
 
         <ImageView
             android:id="@+id/ivAvatar12"
@@ -234,23 +242,23 @@
             android:layout_height="34dp"
             android:layout_marginTop="10dp"
             android:scaleType="centerInside"
-            android:src="@drawable/bla" />
+            android:src="@drawable/women" />
 
         <ImageView
-            android:id="@+id/ivAvatar22"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:layout_marginTop="10dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/bla" />
-
-        <ImageView
-            android:id="@+id/ivAvatar32"
+            android:id="@+id/ivAvatar3"
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_marginTop="10dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/bla" />
+            android:src="@drawable/whiter" />
+
+        <ImageView
+            android:id="@+id/ivAvatar13"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/women" />
 
         <com.yupao.happynewd.view.ResizedImageView
             android:id="@+id/ivRImageView"
